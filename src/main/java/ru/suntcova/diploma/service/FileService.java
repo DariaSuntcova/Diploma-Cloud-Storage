@@ -35,7 +35,7 @@ public class FileService {
         }
 
 
-        List<File> files = fileRepository.findFilesByUsername(username, limit);
+        List<File> files = fileRepository.findFileListByUsername(username, limit);
 
         List<FileDTO> fileDTOS = new ArrayList<>();
         for (int i = files.size() - 1; i >= 0; i--) {

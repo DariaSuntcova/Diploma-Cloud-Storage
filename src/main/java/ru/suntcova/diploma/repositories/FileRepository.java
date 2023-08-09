@@ -21,7 +21,7 @@ public interface FileRepository extends JpaRepository<File, Long> {
 
     List<File> findFilesByUserLogin(String username);
 
-    default List<File> findFilesByUsername(String username, int limit) {
+    default List<File> findFileListByUsername(String username, int limit) {
         List<File> files = findFilesByUserLogin(username);
         List<File> newList = new ArrayList<>();
 
