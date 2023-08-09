@@ -15,4 +15,3 @@ create table users
     roles    varchar(255) check (roles in ('USER', 'ADMIN')),
     primary key (id)
 );
-

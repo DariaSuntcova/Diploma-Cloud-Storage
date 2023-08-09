@@ -24,6 +24,7 @@ public class User implements UserDetails {
     @NonNull
     private String password;
     @Enumerated(EnumType.STRING)
+    @Column(name = "roles")
     private Role role;
 
     @Override

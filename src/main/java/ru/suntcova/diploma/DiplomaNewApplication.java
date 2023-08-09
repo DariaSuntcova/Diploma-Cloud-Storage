@@ -16,22 +16,22 @@ public class DiplomaNewApplication {
         SpringApplication.run(DiplomaNewApplication.class, args);
     }
 
-//    @Bean
-//    CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder encoder) {
-//        return args -> {
-//            if (userRepository.count() == 0) {
-//                userRepository.save(User.builder()
-//                        .login("user")
-//                        .password(encoder.encode("user"))
-//                        .role(Role.USER)
-//                        .build());
-//                userRepository.save(User.builder()
-//                        .login("admin")
-//                        .password(encoder.encode("admin"))
-//                        .role(Role.ADMIN)
-//                        .build());
-//            }
-//        };
-//    }
+    @Bean
+    CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder encoder) {
+        return args -> {
+            if (userRepository.count() == 0) {
+                userRepository.save(User.builder()
+                        .login("user")
+                        .password(encoder.encode("user"))
+                        .role(Role.USER)
+                        .build());
+                userRepository.save(User.builder()
+                        .login("admin")
+                        .password(encoder.encode("admin"))
+                        .role(Role.ADMIN)
+                        .build());
+            }
+        };
+    }
 
 }
