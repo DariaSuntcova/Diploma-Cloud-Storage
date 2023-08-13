@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import ru.suntcova.diploma.dto.FileDTO;
 import ru.suntcova.diploma.entity.File;
-import ru.suntcova.diploma.exceprions.InputDataException;
+import ru.suntcova.diploma.exceptions.InputDataException;
 import ru.suntcova.diploma.repositories.FileRepository;
 
 import java.util.ArrayList;
@@ -33,7 +33,6 @@ public class FileService {
             log.error("Error input data: limit <= 0");
             throw new InputDataException("Error input data");
         }
-
 
         List<File> files = fileRepository.findFileListByUsername(username, limit);
 

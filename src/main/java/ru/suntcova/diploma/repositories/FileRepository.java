@@ -2,7 +2,7 @@ package ru.suntcova.diploma.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.suntcova.diploma.entity.File;
-import ru.suntcova.diploma.exceprions.InputDataException;
+import ru.suntcova.diploma.exceptions.InputDataException;
 
 import java.util.ArrayList;
 import java.util.List;

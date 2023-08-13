@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.suntcova.diploma.service.UserService;
 
-
 import java.io.IOException;
 
 @Component
@@ -23,6 +22,10 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtTokenUtils jwtTokenUtils;
     private final UserService userService;
 
+    private final String HEADER = "auth-token";
+
+    private final String BEARER = "Bearer ";
+
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -30,12 +33,11 @@ public class JwtFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        final String authHeader = request.getHeader("auth-Token");
+        final String authHeader = request.getHeader(HEADER);
         final String jwt;
         final String login;
 
-
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith(BEARER)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -60,3 +62,4 @@ public class JwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
+

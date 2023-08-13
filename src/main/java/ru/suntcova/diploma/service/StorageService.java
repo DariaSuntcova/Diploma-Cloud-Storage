@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import ru.suntcova.diploma.entity.File;
-import ru.suntcova.diploma.exceprions.InputDataException;
+import ru.suntcova.diploma.exceptions.InputDataException;
 import ru.suntcova.diploma.repositories.CloudRepository;
 
 
@@ -19,7 +19,7 @@ public class StorageService {
 
 
     private void checkFileName(String fileName) {
-        if (fileName == null) {
+        if (fileName == null || fileName.isEmpty()) {
             log.error("Error input data: fileName == null");
             throw new InputDataException("Error input data");
         }

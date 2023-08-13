@@ -8,8 +8,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 import ru.suntcova.diploma.entity.File;
-import ru.suntcova.diploma.exceprions.InputDataException;
+import ru.suntcova.diploma.exceptions.InputDataException;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +18,10 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
+@TestPropertySource(locations = "classpath:application.properties")
 @DataJpaTest
 class FileRepositoryTest {
     @Autowired
@@ -41,8 +44,10 @@ class FileRepositoryTest {
         // when
         fileRepository.deleteByFileNameAndUsername("test.txt", "testUser");
         // then
-        assertThat(fileRepository.findByFileNameAndUserLogin(
-                "test.txt", "testUser").get().isItsRemoved()).isTrue();
+        Optional<File> file = fileRepository.findByFileNameAndUserLogin(
+                "test.txt", "testUser");
+        assertTrue(file.isPresent());
+        assertThat(file.get().isItsRemoved()).isTrue();
     }
 
     @Test

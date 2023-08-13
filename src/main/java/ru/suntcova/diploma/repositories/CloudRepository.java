@@ -3,8 +3,8 @@ package ru.suntcova.diploma.repositories;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-import ru.suntcova.diploma.exceprions.FileException;
-import ru.suntcova.diploma.exceprions.InputDataException;
+import ru.suntcova.diploma.exceptions.FileException;
+import ru.suntcova.diploma.exceptions.InputDataException;
 
 import java.io.File;
 import java.io.FileInputStream;
