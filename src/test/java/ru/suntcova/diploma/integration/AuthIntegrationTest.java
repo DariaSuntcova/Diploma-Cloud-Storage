@@ -38,6 +38,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AuthIntegrationTest {
     private static final String AUTH_ENDPOINT = "/login";
+    private static final String LOGIN = "testLogin";
+    private static final String PASSWORD = "testPassword";
+
     @Container
     static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres")
             .withDatabaseName("postgres")
@@ -64,8 +67,8 @@ public class AuthIntegrationTest {
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         User user = User.builder()
-                .login("testLogin")
-                .password(encoder.encode("testPassword"))
+                .login(LOGIN)
+                .password(encoder.encode(PASSWORD))
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
@@ -80,7 +83,7 @@ public class AuthIntegrationTest {
 
     @Test
     void testCreateAuthToken() throws Exception {
-        AuthRequest request = new AuthRequest("testLogin", "testPassword");
+        AuthRequest request = new AuthRequest(LOGIN, PASSWORD);
 
         MockHttpServletRequestBuilder requestPost = post(AUTH_ENDPOINT)
                 .content(objectMapper.writeValueAsString(request))
@@ -110,9 +113,9 @@ public class AuthIntegrationTest {
 
     public static Stream<Arguments> arguments() {
         return Stream.of(
-                Arguments.of("login", "password"),
-                Arguments.of("", "password"),
-                Arguments.of("login", ""),
+                Arguments.of(LOGIN, "badPassword"),
+                Arguments.of("", PASSWORD),
+                Arguments.of(LOGIN, ""),
                 Arguments.of("", ""),
                 Arguments.of(null, null)
         );

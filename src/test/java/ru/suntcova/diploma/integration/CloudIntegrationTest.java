@@ -62,6 +62,7 @@ public class CloudIntegrationTest {
     private static final String PATH_TO_TEST_FILE = "/cloudStore/testLogin/testFile.jpg";
     private static final String PATH_TO_RENAME_TEST_FILE = "/cloudStore/testLogin/newFileName.txt";
     private static final String NEW_FILE_NAME = "newFileName.txt";
+    private static final String PARAM_LIMIT = "limit";
 
     @Container
     static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres").withDatabaseName("postgres").withUsername("postgres").withPassword("postgres");
@@ -359,12 +360,13 @@ public class CloudIntegrationTest {
 
     @Test
     void testGetFileListValidData() throws Exception {
+
         storageService.saveFile(TEST_LOGIN, FILE_NAME.getBytes(), FILE_NAME);
-        storageService.saveFile(TEST_LOGIN, "newFileName.txt".getBytes(), "newFileName.txt");
+        storageService.saveFile(TEST_LOGIN, NEW_FILE_NAME.getBytes(), NEW_FILE_NAME);
 
         String response = mockMvc.perform(get(ENDPOINT_LIST)
                         .header(HEADER_NAME, authToken)
-                        .param("limit", String.valueOf(3)))
+                        .param(PARAM_LIMIT, String.valueOf(3)))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
@@ -375,13 +377,13 @@ public class CloudIntegrationTest {
         assertEquals(2, fileDTOS.size());
 
         assertEquals(fileDTOS.get(1).getFilename(), FILE_NAME);
-        assertEquals(fileDTOS.get(0).getFilename(), "newFileName.txt");
+        assertEquals(fileDTOS.get(0).getFilename(), NEW_FILE_NAME);
     }
 
     @Test
     void testGetFileListUnauthorizedRequest() throws Exception {
         mockMvc.perform(get(ENDPOINT_LIST)
-                        .param("limit", String.valueOf(3)))
+                        .param(PARAM_LIMIT, String.valueOf(3)))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -389,7 +391,7 @@ public class CloudIntegrationTest {
     void testGetFileListNullLimit() throws Exception {
         String response = mockMvc.perform(get(ENDPOINT_LIST)
                         .header(HEADER_NAME, authToken)
-                        .param("limit", String.valueOf(0)))
+                        .param(PARAM_LIMIT, String.valueOf(0)))
                 .andExpect(status().isBadRequest())
                 .andReturn().getResponse().getContentAsString();
 
@@ -401,7 +403,7 @@ public class CloudIntegrationTest {
 
         String response = mockMvc.perform(get(ENDPOINT_LIST)
                         .header(HEADER_NAME, authToken)
-                        .param("limit", String.valueOf(3)))
+                        .param(PARAM_LIMIT, String.valueOf(3)))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
